@@ -6,6 +6,7 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { useState } from "react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/client";
 
 const contactInfo = [
   {
@@ -40,10 +41,29 @@ export const Contact = () => {
     message: ""
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [sending, setSending] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Message sent! We'll get back to you soon.");
-    setFormData({ name: "", email: "", message: "" });
+    setSending(true);
+    const { error } = await supabase
+      .from("contact_messages")
+      .insert([
+        {
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          created_at: new Date().toISOString(),
+        },
+      ]);
+
+    if (error) {
+      toast.error(error.message || "Failed to send message. Please try again.");
+    } else {
+      toast.success("Message sent! We'll get back to you soon.");
+      setFormData({ name: "", email: "", message: "" });
+    }
+    setSending(false);
   };
 
   return (
@@ -175,10 +195,11 @@ export const Contact = () => {
 
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-neon-aqua to-neon-blue text-cyber-dark font-bold py-6 text-lg hover:scale-105 transition-transform glow-intense rounded-xl"
+                disabled={sending}
+                className="w-full bg-gradient-to-r from-neon-aqua to-neon-blue text-cyber-dark font-bold py-6 text-lg hover:scale-105 transition-transform glow-intense rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send className="w-5 h-5 mr-2" />
-                Send Message
+                {sending ? "Sending..." : "Send Message"}
               </Button>
             </form>
           </motion.div>
