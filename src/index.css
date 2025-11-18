@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 220 45% 7%;
+    --foreground: 0 0% 100%;
+
+    --card: 220 40% 10%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 220 40% 10%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 193 100% 50%;
+    --primary-foreground: 220 45% 7%;
+
+    --secondary: 212 98% 53%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 220 40% 15%;
+    --muted-foreground: 0 0% 70%;
+
+    --accent: 193 100% 50%;
+    --accent-foreground: 220 45% 7%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 40% 20%;
+    --input: 220 40% 15%;
+    --ring: 193 100% 50%;
+
+    --radius: 0.75rem;
+    
+    /* Cyber theme colors */
+    --neon-aqua: 193 100% 50%;
+    --neon-blue: 212 98% 53%;
+    --cyber-dark: 220 45% 7%;
+    --glass-bg: 220 40% 12%;
+    
+    /* Glow effects */
+    --glow-aqua: 0 0 20px hsl(193 100% 50% / 0.5);
+    --glow-blue: 0 0 20px hsl(212 98% 53% / 0.5);
+    --glow-intense: 0 0 40px hsl(193 100% 50% / 0.8);
+    
+    /* Gradients */
+    --gradient-neon: linear-gradient(135deg, hsl(193 100% 50%), hsl(212 98% 53%));
+    --gradient-dark: linear-gradient(180deg, hsl(220 45% 7%), hsl(220 40% 10%));
+    --gradient-glass: linear-gradient(135deg, hsl(220 40% 15% / 0.1), hsl(193 100% 50% / 0.05));
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Same as light for this cyber theme */
+  }
+}
+
+@layer utilities {
+  /* Glassmorphism */
+  .glass {
+    @apply bg-glass-bg/10 backdrop-blur-xl border border-white/10;
+  }
+  
+  .glass-card {
+    @apply glass rounded-2xl p-6 shadow-2xl;
+  }
+  
+  /* Neon glow effects */
+  .glow-aqua {
+    box-shadow: var(--glow-aqua);
+  }
+  
+  .glow-blue {
+    box-shadow: var(--glow-blue);
+  }
+  
+  .glow-intense {
+    box-shadow: var(--glow-intense);
+  }
+  
+  .glow-text {
+    text-shadow: 0 0 20px hsl(var(--neon-aqua) / 0.8),
+                 0 0 40px hsl(var(--neon-aqua) / 0.5);
+  }
+  
+  /* 3D depth effects */
+  .depth-card {
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  
+  .depth-card:hover {
+    transform: translateZ(50px) rotateX(5deg) rotateY(5deg);
+  }
+  
+  /* Gradient backgrounds */
+  .bg-gradient-neon {
+    background: var(--gradient-neon);
+  }
+  
+  .bg-gradient-dark {
+    background: var(--gradient-dark);
+  }
+  
+  /* Parallax layers */
+  .parallax-layer {
+    will-change: transform;
+  }
+  
+  /* Neon borders */
+  .border-neon {
+    border: 1px solid hsl(var(--neon-aqua));
+    box-shadow: inset 0 0 10px hsl(var(--neon-aqua) / 0.3),
+                0 0 10px hsl(var(--neon-aqua) / 0.3);
+  }
+  
+  .border-neon-blue {
+    border: 1px solid hsl(var(--neon-blue));
+    box-shadow: inset 0 0 10px hsl(var(--neon-blue) / 0.3),
+                0 0 10px hsl(var(--neon-blue) / 0.3);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground overflow-x-hidden;
+    background-image: 
+      radial-gradient(circle at 20% 50%, hsl(193 100% 50% / 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, hsl(212 98% 53% / 0.08) 0%, transparent 50%);
+    background-attachment: fixed;
+  }
+  
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--cyber-dark));
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, hsl(var(--neon-aqua)), hsl(var(--neon-blue)));
+    border-radius: 5px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, hsl(var(--neon-blue)), hsl(var(--neon-aqua)));
+  }
+}
